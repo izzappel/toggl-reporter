@@ -19,7 +19,7 @@ function getFirstDayOfMonth() {
 
 function getFirstDayOfWeek() {
   const today = getToday();
-  const firstDayOfWeek = today.day("Monday");
+  const firstDayOfWeek = today.startOf('isoWeek');
   return firstDayOfWeek;
 }
 
