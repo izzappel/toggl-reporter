@@ -48,18 +48,26 @@ function calculateDurationForGroup(group) {
 function printReportData(reportData, table) {
   const durationAsString = momentUtils.getDurationInSecondsAsString(reportData.get('duration'));
 
-  table.push([
-    reportData.get('projectName'),
-    reportData.get('description'),
-    durationAsString,
-  ]);
+  if (utils.isPrivateProject(reportData.get('projectName'))) {
+    table.push([
+      colors.gray(reportData.get('projectName')),
+      colors.gray(reportData.get('description')),
+      colors.gray(durationAsString),
+    ]);
+  } else {
+    table.push([
+      reportData.get('projectName'),
+      reportData.get('description'),
+      durationAsString,
+    ]);
+  }
 }
 
 function printFooterReportTotal(allReportData, table) {
   const accumulatedDuration = calculateDurationForTotal(allReportData);
 
   table.push([
-    { colSpan:2, content:colors.red('Total') },
+    { colSpan: 2, content: colors.red('Total') },
     colors.red.bold(momentUtils.getDurationInSecondsAsString(accumulatedDuration))
   ]);
 }
