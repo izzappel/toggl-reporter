@@ -1,7 +1,8 @@
 const immutable = require('immutable');
 const colors = require('colors/safe');
-const momentUtils = require('../momentUtils');
 const Table = require('cli-table2');
+const momentUtils = require('../momentUtils');
+const utils = require('../utils');
 
 
 function printTimeEntriesGroupedByTask(timeEntries) {
@@ -17,7 +18,7 @@ function printTimeEntriesGroupedByTask(timeEntries) {
 function printTimeEntryGroups(timeEntryGroups, table) {
   const allReportData = createReportData(timeEntryGroups);
   allReportData.forEach(reportData => printReportData(reportData, table));
-  printReportAccummulatedFooter(allReportData, table);
+  printFooterReportTotal(allReportData, table);
 }
 
 function groupByTask(timeEntries) {
@@ -54,12 +55,19 @@ function printReportData(reportData, table) {
   ]);
 }
 
-function printReportAccummulatedFooter(allReportData, table) {
-  const accumulatedDuration = allReportData.valueSeq().reduce((totalDuration, reportData) => totalDuration + (reportData.get('projectName') !== 'Freetime' ? reportData.get('duration') : 0), 0);
+function printFooterReportTotal(allReportData, table) {
+  const accumulatedDuration = calculateDurationForTotal(allReportData);
+
   table.push([
     { colSpan:2, content:colors.red('Total') },
     colors.red.bold(momentUtils.getDurationInSecondsAsString(accumulatedDuration))
   ]);
+}
+
+function calculateDurationForTotal(allReportData) {
+  return allReportData
+    .valueSeq()
+    .reduce((totalDuration, reportData) => totalDuration + (utils.isPrivateProject(reportData.get('projectName')) ? 0 : reportData.get('duration')), 0);
 }
 
 function printTable(table) {
