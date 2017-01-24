@@ -23,6 +23,12 @@ function getFirstDayOfWeek() {
   return firstDayOfWeek;
 }
 
+function getFirstDayOfLastWeek() {
+  const today = getToday();
+  const firstDayOfLastWeek = today.subtract(1, 'weeks').startOf('isoWeek');
+  return firstDayOfLastWeek;
+}
+
 function getDurationInSecondsAsString(durationInSeconds) {
   const momentDuration = moment.duration(durationInSeconds, 'seconds');
   return momentDuration.format("HH:mm:ss");
@@ -37,6 +43,7 @@ module.exports = {
   getYesterday: getYesterday,
   getFirstDayOfMonth: getFirstDayOfMonth,
   getFirstDayOfWeek: getFirstDayOfWeek,
+  getFirstDayOfLastWeek: getFirstDayOfLastWeek,
   getDurationInSecondsAsString: getDurationInSecondsAsString,
   getMomentAsString: getMomentAsString,
 };
