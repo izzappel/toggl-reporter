@@ -1,4 +1,5 @@
 const immutable = require('immutable');
+const config = require('../config');
 
 const ProjectRecord = immutable.Record({
   id: null,
@@ -33,6 +34,10 @@ class Project extends ProjectRecord {
     //this.auto_estimates = togglProject.auto_estimates;
     //this.actual_hours = togglProject.actual_hours;
     //this.hex_color = togglProject.hex_color;
+  }
+
+  isPrivate() {
+    return config.privateProjects.includes(this.name);
   }
 }
 

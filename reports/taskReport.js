@@ -1,6 +1,7 @@
 const immutable = require('immutable');
 const colors = require('colors/safe');
 const Table = require('cli-table2');
+const TimeEntry = require('../model/TimeEntry');
 const momentUtils = require('../momentUtils');
 const utils = require('../utils');
 
@@ -16,9 +17,9 @@ function printTimeEntriesGroupedByTask(timeEntries) {
 }
 
 function printTimeEntryGroups(timeEntryGroups, table) {
-  const allReportData = createReportData(timeEntryGroups);
-  allReportData.forEach(reportData => printReportData(reportData, table));
-  printFooterReportTotal(allReportData, table);
+  const timeEntriesPerGroup = createReportData(timeEntryGroups);
+  timeEntriesPerGroup.forEach(timeEntry => printTimeEntry(timeEntry, table));
+  printFooterReportTotal(timeEntriesPerGroup, table);
 }
 
 function groupByTask(timeEntries) {
@@ -31,40 +32,38 @@ function createReportData(timeEntryGroups) {
 
 function createReportDataForGroup(group) {
   const totalDurationForGroup = calculateDurationForGroup(group);
-  const projectName = group.first().getIn(['project', 'name']);
-  const description = group.first().get('description');
 
-  return immutable.fromJS({
-    projectName,
-    description,
+  return new TimeEntry({
+    project: group.first().get('project'),
+    description: group.first().get('description'),
     duration: totalDurationForGroup,
   });
 }
 
 function calculateDurationForGroup(group) {
-  return group.valueSeq().reduce((totalDuration, timeEntry) => totalDuration + timeEntry.get('duration'), 0);
+  return group.valueSeq().reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getDuration(), 0);
 }
 
-function printReportData(reportData, table) {
-  const durationAsString = momentUtils.getDurationInSecondsAsString(reportData.get('duration'));
+function printTimeEntry(timeEntry, table) {
+  const durationAsString = momentUtils.getDurationInSecondsAsString(timeEntry.getDuration());
 
-  if (utils.isPrivateProject(reportData.get('projectName'))) {
+  if (timeEntry.get('project').isPrivate()) {
     table.push([
-      colors.gray(reportData.get('projectName')),
-      colors.gray(reportData.get('description')),
+      colors.gray(timeEntry.getProjectName()),
+      colors.gray(timeEntry.get('description')),
       colors.gray(durationAsString),
     ]);
   } else {
     table.push([
-      reportData.get('projectName'),
-      reportData.get('description'),
+      timeEntry.getProjectName(),
+      timeEntry.get('description'),
       durationAsString,
     ]);
   }
 }
 
-function printFooterReportTotal(allReportData, table) {
-  const accumulatedDuration = calculateDurationForTotal(allReportData);
+function printFooterReportTotal(timeEntriesPerGroup, table) {
+  const accumulatedDuration = calculateDurationForTotal(timeEntriesPerGroup);
 
   table.push([
     { colSpan: 2, content: colors.red('Total') },
@@ -72,10 +71,10 @@ function printFooterReportTotal(allReportData, table) {
   ]);
 }
 
-function calculateDurationForTotal(allReportData) {
-  return allReportData
+function calculateDurationForTotal(timeEntriesPerGroup) {
+  return timeEntriesPerGroup
     .valueSeq()
-    .reduce((totalDuration, reportData) => totalDuration + (utils.isPrivateProject(reportData.get('projectName')) ? 0 : reportData.get('duration')), 0);
+    .reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getBillableDuration(), 0);
 }
 
 function printTable(table) {

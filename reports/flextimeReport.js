@@ -22,7 +22,7 @@ function calculateFlextimePerDay(groupedTimeEntries) {
 function calculateDuration(timeEntries) {
   return timeEntries
     .valueSeq()
-    .reduce((totalDuration, timeEntry)  => totalDuration + (utils.isPrivateProject(timeEntry.getIn(['project', 'name'])) ? 0 : timeEntry.get('duration')), 0);
+    .reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getBillableDuration(), 0);
 }
 
 module.exports = printTimeEntriesGroupedByTask;
