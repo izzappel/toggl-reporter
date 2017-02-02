@@ -9,7 +9,7 @@ const utils = require('../utils');
 function printTimeEntriesGroupedByTask(timeEntries) {
   const table = new Table({
     head: ['Project', 'Task', 'Duration'],
-    colWidths: [20, 20, 20]
+    colWidths: [20, 30, 20]
   });
 
   printTimeEntryGroups(groupByTask(timeEntries), table);
