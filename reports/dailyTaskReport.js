@@ -5,7 +5,7 @@ const momentUtils = require('../momentUtils');
 const utils = require('../utils');
 
 function printTimeEntriesGroupedByTask(timeEntries) {
-  printGroupedTimeEntries(utils.groupByDay(timeEntries));
+  printGroupedTimeEntries(utils.groupTimeEntriesByDay(timeEntries));
 }
 
 function printGroupedTimeEntries(groupedTimeEntries) {

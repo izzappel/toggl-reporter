@@ -5,7 +5,7 @@ const utils = require('../utils');
 const config = require('../config');
 
 function printTimeEntriesGroupedByTask(timeEntries) {
-  const flextime = cummulateFlextime(calculateFlextimePerDay(utils.groupByDay(timeEntries)));
+  const flextime = cummulateFlextime(calculateFlextimePerDay(utils.groupTimeEntriesByDay(timeEntries)));
   console.log('acutal cummulated flextime:', colors.red.bold(momentUtils.getDurationInSecondsAsString(flextime)));
 }
 

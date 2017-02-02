@@ -5,7 +5,7 @@ function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
-function groupByDay(timeEntries) {
+function groupTimeEntriesByDay(timeEntries) {
   return timeEntries.groupBy(timeEntry => {
     const dateString = moment(timeEntry.get('start')).format('DD.MM.YYYY');
     return dateString;
@@ -14,5 +14,5 @@ function groupByDay(timeEntries) {
 
 module.exports = {
   onlyUnique: onlyUnique,
-  groupByDay: groupByDay,
+  groupTimeEntriesByDay: groupTimeEntriesByDay,
 };

@@ -34,6 +34,11 @@ function getDurationInSecondsAsString(durationInSeconds) {
   return momentDuration.format("HH:mm:ss");
 }
 
+function getDurationInHoursAsString(durationInHours) {
+  const momentDuration = moment.duration(durationInHours, 'hours');
+  return momentDuration.format("HH:mm:ss");
+}
+
 function getMomentAsString(moment) {
   return moment.format('dddd, DD.MM.YYYY');
 }
@@ -45,5 +50,6 @@ module.exports = {
   getFirstDayOfWeek: getFirstDayOfWeek,
   getFirstDayOfLastWeek: getFirstDayOfLastWeek,
   getDurationInSecondsAsString: getDurationInSecondsAsString,
+  getDurationInHoursAsString: getDurationInHoursAsString,
   getMomentAsString: getMomentAsString,
 };
