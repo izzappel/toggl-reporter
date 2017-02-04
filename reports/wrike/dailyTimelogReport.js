@@ -2,7 +2,6 @@ const colors = require('colors/safe');
 const moment = require('moment');
 const timelogReport = require('./timelogReport');
 const momentUtils = require('../../momentUtils');
-const utils = require('../../utils');
 
 function printTimelogsGroupedByDay(timelogs) {
   printGroupedTimelogs(

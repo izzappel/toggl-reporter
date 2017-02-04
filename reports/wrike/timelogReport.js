@@ -3,8 +3,6 @@ const colors = require('colors/safe');
 const Table = require('cli-table2');
 const Timelog = require('../../model/Timelog');
 const momentUtils = require('../../momentUtils');
-const utils = require('../../utils');
-
 
 function printTimelogsGroupedByTask(timelogs) {
   const table = new Table({
