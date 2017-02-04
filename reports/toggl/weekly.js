@@ -1,7 +1,7 @@
 const colors = require('colors/safe');
 const moment = require('moment');
-const momentUtils = require('../momentUtils');
-const togglClient = require('../toggl/togglClient');
+const momentUtils = require('../../momentUtils');
+const togglClient = require('../../toggl/togglClient');
 const dailyTaskReport = require('./dailyTaskReport');
 
 const args = process.argv.slice(2);

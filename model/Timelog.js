@@ -16,6 +16,10 @@ class Timelog extends TimelogRecord {
     super(wrikeTimelog);
   }
 
+  getTaskTitle() {
+    return this.task.get('title');
+  }
+
 }
 
 module.exports = Timelog;

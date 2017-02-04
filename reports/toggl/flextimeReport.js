@@ -1,8 +1,8 @@
 const immutable = require('immutable');
 const colors = require('colors/safe');
-const momentUtils = require('../momentUtils');
-const utils = require('../utils');
-const config = require('../config');
+const momentUtils = require('../../momentUtils');
+const utils = require('../../utils');
+const config = require('../../config');
 
 function printTimeEntriesGroupedByTask(timeEntries) {
   const flextime = cummulateFlextime(calculateFlextimePerDay(utils.groupTimeEntriesByDay(timeEntries)));

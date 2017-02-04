@@ -1,6 +1,6 @@
 const colors = require('colors/safe');
-const momentUtils = require('../momentUtils');
-const togglClient = require('../toggl/togglClient');
+const momentUtils = require('../../momentUtils');
+const togglClient = require('../../toggl/togglClient');
 const taskReport = require('./taskReport');
 
 const startOfWeek = momentUtils.getFirstDayOfWeek();

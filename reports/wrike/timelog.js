@@ -1,25 +1,24 @@
 const colors = require('colors/safe');
 const moment = require('moment');
-const momentUtils = require('../momentUtils');
-const togglClient = require('../toggl/togglClient');
-const taskReport = require('./taskReport');
+const momentUtils = require('../../momentUtils');
+const wrikeClient = require('../../wrike/wrikeClient');
+const timelogReport = require('./timelogReport');
 
 const args = process.argv.slice(2);
 
-const startOfToday = getStartDateFromArgs(args);
-const endOfToday = moment(startOfToday).endOf('day');
+const day = getDayFromArgs(args);
 
-console.log(colors.red.bold(momentUtils.getMomentAsString(startOfToday)), 'to',  colors.red.bold(momentUtils.getMomentAsString(endOfToday)));
+console.log(colors.red.bold(momentUtils.getMomentAsString(day)));
 
 function handleError(error) {
   console.error(error);
 }
 
-togglClient.getTimeEntries(startOfToday.toISOString(), endOfToday.toISOString())
-  .then(taskReport)
+wrikeClient.getTimelogs(day)
+  .then(timelogReport)
   .catch(handleError);
 
-function getStartDateFromArgs(args) {
+function getDayFromArgs(args) {
   if (args.length > 0) {
     const firstArgument = args[0];
 
@@ -62,5 +61,3 @@ function getStartDateFromArgs(args) {
 
   return momentUtils.getToday();
 }
-
-

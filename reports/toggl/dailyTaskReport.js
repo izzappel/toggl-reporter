@@ -1,8 +1,8 @@
 const colors = require('colors/safe');
 const moment = require('moment');
 const taskReport = require('./taskReport');
-const momentUtils = require('../momentUtils');
-const utils = require('../utils');
+const momentUtils = require('../../momentUtils');
+const utils = require('../../utils');
 
 function printTimeEntriesGroupedByTask(timeEntries) {
   printGroupedTimeEntries(utils.groupTimeEntriesByDay(timeEntries));

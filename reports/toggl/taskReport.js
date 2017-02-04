@@ -1,10 +1,8 @@
 const immutable = require('immutable');
 const colors = require('colors/safe');
 const Table = require('cli-table2');
-const TimeEntry = require('../model/TimeEntry');
-const momentUtils = require('../momentUtils');
-const utils = require('../utils');
-
+const TimeEntry = require('../../model/TimeEntry');
+const momentUtils = require('../../momentUtils');
 
 function printTimeEntriesGroupedByTask(timeEntries) {
   const table = new Table({
@@ -12,14 +10,17 @@ function printTimeEntriesGroupedByTask(timeEntries) {
     colWidths: [20, 30, 20]
   });
 
-  printTimeEntryGroups(groupByTask(timeEntries), table);
-  printTable(table);
-}
+  const timeEntriesPerGroup =
+    sortByDescription(
+      createReportData(
+        groupByTask(timeEntries)
+      )
+    );
 
-function printTimeEntryGroups(timeEntryGroups, table) {
-  const timeEntriesPerGroup = createReportData(timeEntryGroups);
   timeEntriesPerGroup.forEach(timeEntry => printTimeEntry(timeEntry, table));
   printFooterReportTotal(timeEntriesPerGroup, table);
+
+  printTable(table);
 }
 
 function groupByTask(timeEntries) {
@@ -28,6 +29,10 @@ function groupByTask(timeEntries) {
 
 function createReportData(timeEntryGroups) {
   return timeEntryGroups.map(createReportDataForGroup);
+}
+
+function sortByDescription(timeEntries) {
+  return timeEntries.sort((timeEntry1, timeEntry2) => timeEntry1.get('description').localeCompare(timeEntry2.get('description')));
 }
 
 function createReportDataForGroup(group) {
@@ -41,7 +46,9 @@ function createReportDataForGroup(group) {
 }
 
 function calculateDurationForGroup(group) {
-  return group.valueSeq().reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getDuration(), 0);
+  return group
+    .valueSeq()
+    .reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getDuration(), 0);
 }
 
 function printTimeEntry(timeEntry, table) {

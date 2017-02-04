@@ -1,9 +1,9 @@
 const immutable = require('immutable');
 const colors = require('colors/safe');
 const Table = require('cli-table2');
-const Timelog = require('../model/Timelog');
-const momentUtils = require('../momentUtils');
-const utils = require('../utils');
+const Timelog = require('../../model/Timelog');
+const momentUtils = require('../../momentUtils');
+const utils = require('../../utils');
 
 
 function printTimelogsGroupedByTask(timelogs) {
@@ -12,14 +12,17 @@ function printTimelogsGroupedByTask(timelogs) {
     colWidths: [50, 20]
   });
 
-  printTimelogGroups(groupByTask(timelogs), table);
-  printTable(table);
-}
+  const timelogsPerGroup =
+    sortByTask(
+      createReportData(
+        groupByTask(timelogs)
+      )
+    );
 
-function printTimelogGroups(timelogGroups, table) {
-  const timelogsPerGroup = createReportData(timelogGroups);
   timelogsPerGroup.forEach(timelog => printTimelog(timelog, table));
   printFooterReportTotal(timelogsPerGroup, table);
+
+  printTable(table);
 }
 
 function groupByTask(timelogs) {
@@ -28,6 +31,10 @@ function groupByTask(timelogs) {
 
 function createReportData(timelogGroups) {
   return timelogGroups.map(createReportDataForGroup);
+}
+
+function sortByTask(timelogs) {
+  return timelogs.sort((timelog1, timelog2) => timelog1.getTaskTitle().localeCompare(timelog2.getTaskTitle()));
 }
 
 function createReportDataForGroup(group) {
@@ -45,7 +52,7 @@ function calculateDurationForGroup(group) {
 
 function printTimelog(timelog, table) {
   table.push([
-    timelog.getIn(['task', 'title']),
+    timelog.getTaskTitle(),
     momentUtils.getDurationInHoursAsString(timelog.get('hours')),
   ]);
 }

@@ -1,7 +1,7 @@
 const colors = require('colors/safe');
 const moment = require('moment');
-const momentUtils = require('../momentUtils');
-const wrikeClient = require('../wrike/wrikeClient');
+const momentUtils = require('../../momentUtils');
+const wrikeClient = require('../../wrike/wrikeClient');
 const dailyTimelogReport = require('./dailyTimelogReport');
 
 const args = process.argv.slice(2);
