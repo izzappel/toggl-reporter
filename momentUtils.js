@@ -43,6 +43,18 @@ function getMomentAsString(moment) {
   return moment.format('dddd, DD.MM.YYYY');
 }
 
+function compareMoments(moment1, moment2) {
+  if (moment1.isSame(moment2)) {
+    return 0;
+  }
+
+  if (moment1.isBefore(moment2)) {
+    return -1;
+  }
+
+  return 1;
+}
+
 module.exports = {
   getToday: getToday,
   getYesterday: getYesterday,
@@ -52,4 +64,5 @@ module.exports = {
   getDurationInSecondsAsString: getDurationInSecondsAsString,
   getDurationInHoursAsString: getDurationInHoursAsString,
   getMomentAsString: getMomentAsString,
+  compareMoments: compareMoments,
 };
