@@ -24,10 +24,7 @@ module.exports = {
 					presets: ['react', 'es2015'],
 				},
 			},
-			{
-				test: /\.s?css$/,
-				loader: 'style!css!sass',
-			},
+			{ test: /\.css$/, loader: 'style-loader!css-loader' },
 			{
 				test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
 				loader: 'url-loader?limit=10000',
@@ -42,7 +39,8 @@ module.exports = {
 			},
 		],
 	},
+  target: 'node',
 	plugins: [
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
 	]
 };
