@@ -29,7 +29,7 @@ function groupTimeEntriesByDescription(timeEntries) {
         project: group.first().get('project'),
         description: group.first().get('description'),
         duration: calculateTotalDuration(group),
-        timeEntries: timeEntries,
+        timeEntries: group,
       });
     });
 }
