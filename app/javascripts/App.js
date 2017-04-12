@@ -1,8 +1,9 @@
 import React from 'react';
+import Title from './components/Title';
 
 function App() {
 	return (
-		<h1>Toggl Reporter</h1>
+		<Title>Toggl Reporter</Title>
 	);
 }
 
