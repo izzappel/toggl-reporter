@@ -1,7 +1,7 @@
 const colors = require('colors/safe');
 const moment = require('moment');
 const momentUtils = require('../../momentUtils');
-const togglClient = require('../../toggl/togglClient');
+const toggl = require('../../toggl');
 const flextimeReport = require('./flextimeReport');
 
 const args = process.argv.slice(2);
@@ -15,6 +15,6 @@ function handleError(error) {
   console.error(error);
 }
 
-togglClient.getTimeEntries(startOfDeepImpact.toISOString(), today.toISOString())
+toggl.getTimeEntries(startOfDeepImpact.toISOString(), today.toISOString())
   .then(flextimeReport)
   .catch(handleError);

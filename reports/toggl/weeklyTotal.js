@@ -1,6 +1,6 @@
 const colors = require('colors/safe');
 const momentUtils = require('../../momentUtils');
-const togglClient = require('../../toggl/togglClient');
+const toggl = require('../../toggl');
 const taskReport = require('./taskReport');
 
 const startOfWeek = momentUtils.getFirstDayOfWeek();
@@ -12,7 +12,7 @@ function handleError(error) {
   console.error(error);
 }
 
-togglClient.getTimeEntries(startOfWeek.toISOString(), endOfWeek.toISOString())
+toggl.getTimeEntries(startOfWeek.toISOString(), endOfWeek.toISOString())
   .then(taskReport)
   .catch(handleError);
 

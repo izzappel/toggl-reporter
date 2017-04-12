@@ -3,6 +3,7 @@ const colors = require('colors/safe');
 const Table = require('cli-table2');
 const TimeEntry = require('../../model/TimeEntry');
 const momentUtils = require('../../momentUtils');
+const utils = require('../../utils');
 
 function printTimeEntriesGroupedByTask(timeEntries) {
   const table = new Table({
@@ -11,10 +12,8 @@ function printTimeEntriesGroupedByTask(timeEntries) {
   });
 
   const timeEntriesPerGroup =
-    sortByDescription(
-      createReportData(
-        groupByTask(timeEntries)
-      )
+    utils.sortTimeEntriesByDescription(
+      utils.groupTimeEntriesByDescription(timeEntries)
     );
 
   timeEntriesPerGroup.forEach(timeEntry => printTimeEntry(timeEntry, table));
@@ -23,33 +22,6 @@ function printTimeEntriesGroupedByTask(timeEntries) {
   printTable(table);
 }
 
-function groupByTask(timeEntries) {
-  return timeEntries.groupBy(timeEntry => timeEntry.get('description'));
-}
-
-function createReportData(timeEntryGroups) {
-  return timeEntryGroups.map(createReportDataForGroup);
-}
-
-function sortByDescription(timeEntries) {
-  return timeEntries.sort((timeEntry1, timeEntry2) => timeEntry1.get('description').localeCompare(timeEntry2.get('description')));
-}
-
-function createReportDataForGroup(group) {
-  const totalDurationForGroup = calculateDurationForGroup(group);
-
-  return new TimeEntry({
-    project: group.first().get('project'),
-    description: group.first().get('description'),
-    duration: totalDurationForGroup,
-  });
-}
-
-function calculateDurationForGroup(group) {
-  return group
-    .valueSeq()
-    .reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getDuration(), 0);
-}
 
 function printTimeEntry(timeEntry, table) {
   const durationAsString = momentUtils.getDurationInSecondsAsString(timeEntry.getDuration());
