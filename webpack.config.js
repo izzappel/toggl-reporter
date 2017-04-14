@@ -25,6 +25,7 @@ module.exports = {
 				},
 			},
 			{ test: /\.css$/, loader: 'style-loader!css-loader' },
+			{ test: /\.sass$/, loader: 'style-loader!css-loader!sass-loader' },
 			{
 				test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
 				loader: 'url-loader?limit=10000',

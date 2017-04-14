@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+
+import './global-style';
+import theme from './theme';
 
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('content'));
+ReactDOM.render((
+	<ThemeProvider theme={theme}>
+		<App />
+	</ThemeProvider>
+), document.getElementById('content'));
