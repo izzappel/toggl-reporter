@@ -58,13 +58,13 @@ class TogglList extends React.Component {
 				<TimeEntryRow
 					key={index}
 					description={timeEntry.get('description')}
-					duration={timeEntry.get('duration')}
-					project={timeEntry.getIn(['project', 'name'])}
+					duration={timeEntry.getDuration()}
+					project={timeEntry.getProjectName()}
 				/>);
 
 		const total = this.state.timeEntries
 			.valueSeq()
-			.reduce((total, timeEntry) => total + timeEntry.get('duration'), 0);
+			.reduce((total, timeEntry) => total + timeEntry.getBillableDuration(), 0);
 
 		return (
 			<Table>
