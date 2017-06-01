@@ -28,4 +28,14 @@ injectGlobal`
   * {
     font-family: Roboto, sans-serif;
   }
+
+	html, body {
+		height: 100%;
+		margin: 0;
+	}
+
+	#content {
+		height: 100%;
+		margin: 10px;
+	}
 `;
