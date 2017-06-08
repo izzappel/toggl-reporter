@@ -5,6 +5,7 @@ import { Map, List } from 'immutable';
 import toggl from '../../../../toggl';
 import utils from '../../../../utils';
 import momentUtils from '../../../../momentUtils';
+import daily from '../../../../reports/toggl/daily/daily';
 
 import TimeEntryRow from '../../components/TimeEntryRow';
 import Loader from '../../components/Loader';
@@ -36,10 +37,7 @@ class TogglList extends React.Component {
 	}
 
 	onTimeEntriesLoaded(timeEntries) {
-		const timeEntriesPerGroup =
-			utils.sortTimeEntriesByDescription(
-				utils.groupTimeEntriesByDescription(timeEntries)
-			);
+		const timeEntriesPerGroup = daily.groupAndSortByDescription(timeEntries);
 
 		this.setState({
 			isLoading: false,
@@ -62,9 +60,7 @@ class TogglList extends React.Component {
 					project={timeEntry.getProjectName()}
 				/>);
 
-		const total = this.state.timeEntries
-			.valueSeq()
-			.reduce((total, timeEntry) => total + timeEntry.getBillableDuration(), 0);
+		const total = utils.calculateBillableDuration(this.state.timeEntries);
 
 		return (
 			<Table>

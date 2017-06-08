@@ -4,6 +4,11 @@ const config = require('./config');
 const TimeEntry = require('./model/TimeEntry');
 const GroupedTimeEntries = require('./model/GroupedTimeEntries');
 
+function getStartOfDeepImpact() {
+	const startOfDeepImpact = moment('2017-01-09', 'YYYY-MM-DD');
+	return startOfDeepImpact;
+} 
+
 function onlyUnique(value, index, self) {
 	return self.indexOf(value) === index;
 }
@@ -44,21 +49,11 @@ function calculateBillableDuration(timeEntries) {
 		.reduce((totalDuration, timeEntry) => totalDuration + timeEntry.getBillableDuration(), 0);
 }
 
-function calculateFlextimePerDay(groupedTimeEntriesByDay) {
-	return groupedTimeEntriesByDay.map(timeEntries => {
-		return calculateBillableDuration(timeEntries) - config.dailyWorkTime;
-	});
-}
-
-function calculateFlextime(timeEntries) {
-	const flextimePerDays = calculateFlextimePerDay(groupTimeEntriesByDay(timeEntries));
-	return flextimePerDays.reduce((flextime, flextimePerDay) => flextime + flextimePerDay, 0);
-}
-
 module.exports = {
+	getStartOfDeepImpact: getStartOfDeepImpact,
 	onlyUnique: onlyUnique,
 	groupTimeEntriesByDay: groupTimeEntriesByDay,
 	groupTimeEntriesByDescription: groupTimeEntriesByDescription,
 	sortTimeEntriesByDescription: sortTimeEntriesByDescription,
-	calculateFlextime: calculateFlextime,
+	calculateBillableDuration: calculateBillableDuration,
 };

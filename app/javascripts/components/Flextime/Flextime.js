@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Map, List } from 'immutable';
 import toggl from '../../../../toggl';
-import utils from '../../../../utils';
 import momentUtils from '../../../../momentUtils';
+import flextimeReport from '../../../../reports/toggl/flextime/flextime';
 
 class Flextime extends React.Component {
 	constructor(props) {
@@ -30,7 +30,7 @@ class Flextime extends React.Component {
 	}
 
 	onTimeEntriesLoaded(timeEntries) {
-		const flextime = utils.calculateFlextime(timeEntries);
+		const flextime = flextimeReport.calculate(timeEntries);
 
 		this.setState({
 			isLoading: false,

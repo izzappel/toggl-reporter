@@ -12,7 +12,8 @@ class DateSelector extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			date: moment(),
+			startDate: moment(),
+			endDate: moment(),
 		};
 	}
 

@@ -1,12 +1,13 @@
 const colors = require('colors/safe');
-const moment = require('moment');
-const momentUtils = require('../../momentUtils');
-const toggl = require('../../toggl');
-const flextimeReport = require('./flextimeReport');
+const momentUtils = require('../../../momentUtils');
+const utils = require('../../../utils');
+const toggl = require('../../../toggl');
+const print = require('./print');
+const flextime = require('./flextime');
 
 const args = process.argv.slice(2);
 
-const startOfDeepImpact = moment('2017-01-09', 'YYYY-MM-DD');
+const startOfDeepImpact = utils.getStartOfDeepImpact();
 const today = momentUtils.getToday().endOf('day');
 
 console.log(colors.red.bold(momentUtils.getMomentAsString(startOfDeepImpact)), 'to',  colors.red.bold(momentUtils.getMomentAsString(today)));
@@ -16,5 +17,5 @@ function handleError(error) {
 }
 
 toggl.getTimeEntries(startOfDeepImpact.toISOString(), today.toISOString())
-  .then(flextimeReport)
+  .then(timeEntries => print(flextime.calculate(timeEntries)))
   .catch(handleError);
