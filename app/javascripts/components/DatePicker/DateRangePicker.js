@@ -32,6 +32,7 @@ class DatePicker extends React.Component {
 				focusedInput={this.state.focused}
 				onFocusChange={(focused) => this.setState({ focused })}
 				isOutsideRange={() => false}
+				minimumNights={0}
 			/>
 		);
 	}
