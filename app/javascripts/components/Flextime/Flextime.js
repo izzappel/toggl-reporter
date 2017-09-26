@@ -9,8 +9,6 @@ import flextimeReport from '../../../../reports/toggl/flextime/flextime';
 class Flextime extends React.Component {
 	constructor(props) {
 		super(props);
-		this.startOfDeepImpact = moment('2017-01-09', 'YYYY-MM-DD');
-
 		this.state = {
 			isLoading: true,
 			timeEntries: new List(),
@@ -23,9 +21,10 @@ class Flextime extends React.Component {
 	}
 
 	loadFlextime() {
+		const lastTwoMonths = momentUtils.getToday().subtract(1, 'month').startOf('month');		
 		const today = momentUtils.getToday().endOf('day');
 		toggl
-			.getTimeEntries(this.startOfDeepImpact.toISOString(), today.toISOString())
+			.getTimeEntries(lastTwoMonths.toISOString(), today.toISOString())
 			.then(timeEntries => this.onTimeEntriesLoaded(timeEntries));
 	}
 

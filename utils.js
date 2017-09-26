@@ -5,7 +5,7 @@ const TimeEntry = require('./model/TimeEntry');
 const GroupedTimeEntries = require('./model/GroupedTimeEntries');
 
 function getStartOfDeepImpact() {
-	const startOfDeepImpact = moment('2017-01-09', 'YYYY-MM-DD');
+	const startOfDeepImpact = moment('2017-01-09', 'YYYY-MM-DD').startOf('day');
 	return startOfDeepImpact;
 } 
 
@@ -22,6 +22,13 @@ function calculateTotalDuration(group) {
 function groupTimeEntriesByDay(timeEntries) {
 	return timeEntries.groupBy(timeEntry => {
 		const dateString = moment(timeEntry.get('start')).format('DD.MM.YYYY');
+		return dateString;
+	});
+}
+
+function groupTimeEntriesByMonth(timeEntries) {
+	return timeEntries.groupBy(timeEntry => {
+		const dateString = moment(timeEntry.get('start')).format('YYYY-MM');
 		return dateString;
 	});
 }
@@ -53,6 +60,7 @@ module.exports = {
 	getStartOfDeepImpact: getStartOfDeepImpact,
 	onlyUnique: onlyUnique,
 	groupTimeEntriesByDay: groupTimeEntriesByDay,
+	groupTimeEntriesByMonth: groupTimeEntriesByMonth,
 	groupTimeEntriesByDescription: groupTimeEntriesByDescription,
 	sortTimeEntriesByDescription: sortTimeEntriesByDescription,
 	calculateBillableDuration: calculateBillableDuration,
